@@ -61,6 +61,12 @@ RUN apk add --no-progress --no-cache \
   && composer clear-cache \
   && rm -rf /flarum/.composer /tmp/* \
   && setcap CAP_NET_BIND_SERVICE=+eip /usr/sbin/nginx
+FROM extiverse/flarum:stable
+RUN composer require flarum-lang/chinese-simplified
+RUN composer require clarkwinkelmann/flarum-ext-guest-posting
+RUN composer require clarkwinkelmann/flarum-ext-anonymous-posting
+RUN composer require fof/subscribed
+RUN php flarum cache:clear
 
 COPY rootfs /
 RUN chmod +x /usr/local/bin/* /etc/s6.d/*/run /etc/s6.d/.s6-svscan/*
